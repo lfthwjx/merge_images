@@ -23,8 +23,8 @@ class ImagesMergeHelper {
   /// Fit width when direction is vertical, and fit height when horizontal.
   /// Default to true.
   ///[backgroundColor] background color of picture
-  static Future<ui.Image> margeImages(List<ui.Image> imageList,
-      {Axis direction = Axis.vertical, bool fit = true, Color? backgroundColor}) {
+  static Future<ui.Image> mergeImages(List<ui.Image> imageList,
+      {Axis direction = Axis.vertical, bool fit = true, bool center = false, Color? backgroundColor}) {
     int maxWidth = 0;
     int maxHeight = 0;
     //calculate max width/height of image
@@ -66,7 +66,15 @@ class ImagesMergeHelper {
         canvas.restore();
       } else {
         //draw directly
-        canvas.drawImage(image, Offset(dx, dy), paint);
+        if (center) {
+          if (direction == Axis.vertical){
+            canvas.drawImage(image, Offset(maxWidth/2, dy), paint);
+          } else {
+            canvas.drawImage(image, Offset(dx, maxHeight/2), paint);
+          }
+        } else {
+          canvas.drawImage(image, Offset(dx, dy), paint);
+        }
       }
       //accumulate dx/dy
       if (direction == Axis.vertical) {
